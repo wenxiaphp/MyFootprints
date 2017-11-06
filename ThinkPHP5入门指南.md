@@ -72,22 +72,27 @@ Model再分层和Controller再分层
 同时安装think和framework（框架）这两个才可以执行
 先安装think，点击进入，复制地址->进入控制台->cd wamp目录中，然后克隆
 
-    git clone --depth=1 https://github.com/top-think/think.git think_git
+```bash
+$ git clone --depth=1 https://github.com/top-think/think.git think_git
+```
 
 安装framwork步骤一样
-
-    git clone --depth=1 https://github.com/top-think/framework.git thinkphp
+```bash
+$ git clone --depth=1 https://github.com/top-think/framework.git thinkphp
+```
 
  ### 通过composer方式安装
 
 中文网站：http://www.phpcomposer.com
 查看当前composer版本号：
-
-    composer --version
+```bash
+$ composer --version
+```
 
 安装thinkPHP命令：
-
-    composer create-project --prefer-dist topthink/think think_composer
+```bash
+$ composer create-project --prefer-dist topthink/think think_composer
+```
 
 其中：think_composer 我们的安装目录地址
 
@@ -199,13 +204,13 @@ project  应用部署目录
 模块配置：conf下面的目录和app下面的目录文件名相同时，conf文件夹下的配置文件只对app下相同文件夹下的文件配置有效
 
 动态配置：我们可以利用__construct构造方法进行文件配置，这样只在该控制器中使用
-```
+```php
 public function __construct(){
     config('before','beforeAction');
 }
 ```
 如果只在方法中修改配置文件，那么只能在该方法中使用
-```
+```php
 public function index(){
     config('indexaction','indexaction');
     dump(config());
@@ -216,17 +221,17 @@ public function index(){
 
 Config类文件路径：./thinkphp/library/think/Config.php
 Config类和config函数对比：
-```
+```php
 //获取配置文件
 $res = Config::get();
 $res = config();
 ```
-```
+```php
 //获取配置文件中的某个值
 $res = Config::get('app_status');
 $res = config('app_status');
 ```
-```
+```php
 //设置配置文件中的某个配置('键','值','作用域')
 Config::set('username','meng');
 config('username','mengwenxia');
@@ -234,7 +239,7 @@ config('username','mengwenxia');
 Config::set('username','meng','index');
 config('username','index_config','index');
 ```
-```
+```php
 //判断该配置是否存在，返回值为：bool（false/true）
 $res = Config::has('username');
 $res = config('?username');
@@ -248,7 +253,7 @@ $res = config('?username');
    `Default Value: "EGPCS" 前面的';'号去掉，或者把 variables_order = "GPCS" 改成 variables_order = "EGPCS"`
 
  保存之后重启Apache即可，但是在.env中的设置的变量并不能使用'$_ENV'获取，需要用 think\Env::get('email') 获取
-  ```
+```php
 //获取环境变量的值可以使用下面的两种方式获取
 Env::get('database.username');
 Env::get('database_username');
@@ -311,23 +316,27 @@ dump($res);
 ## 入口文件绑定
 
 如果开启了入口文件自动绑定操作，优先访问和文件名相同的模块。
-```
+```php
 // 开启入口文件自动绑定操作
 'auto_bind_module' => true
 ```
 例如：在public文件夹下，有文件名为api.php的文件，api.php的内容为：
-```
+```php
 <?php
 define('APP_PATH',__DIR__.'/../app/');
 define('CONF_PATH',__DIR__.'/../conf/');
 require(__DIR__.'/../thinkphp/start.php');
+?>
 ```
+
 同时还存在文件 app/api/controller/Index.php 文件，那么当我们访问 http://127.0.0.1/thinkphp/public/api.php 会优先读取 api/controller 文件夹下的 index.php 文件；当不存在 app/api/controller/Index.php 文件时，会打开文件app/index/controller/Index.php 文件。
 入口文件绑定模块，可以限定访问的模块
-```
+
+```php
 //只能访问api的模块，不能访问其他的模块
 define('BIND_MODULE','admin');
 ```
+
 例如：同上面的内容在入口文件index.php中，当我们在浏览器访问 http://127.0.0.1/thinkphp/public/index/Index/index ，虽然要打开的是index模块下的Index类中的index方法，但是真实打开的文件是admin模块下的Index类中的index方法，无法打开index模块下的Index类中的index方法。
 通过这种方式，限定了只能有一个模块可以访问。
 同理如果常量定义为： define('BIND_MODULE','admin/index') ，通过这个方法限定了只能访问Index类中的方法 http://127.0.0.1/thinkphp/public/demo 相当于打开 http://127.0.0.1/thinkphp/public/admin/Index/demo
@@ -335,10 +344,10 @@ define('BIND_MODULE','admin');
 
 ## 路由
 
-目的：美化URL和简化用户的访问
+目的：美化了URL和简化用户的访问
 
 查看当前是否开启路由：H:\wamp64\www\thinkphp\thinkphp\convention.php
-```
+```php
 // 是否开启路由
 'url_route_on' => true,
 // 是否强制使用路由
@@ -347,7 +356,7 @@ define('BIND_MODULE','admin');
 
 创建路由配置文件，文件名是固定的：route.php
 
-```
+```php
 return [
     'news/:id' => 'index/Index/info',
     'index/Index/demo' => 'index/Index/demo'
