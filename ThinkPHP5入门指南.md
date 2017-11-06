@@ -156,18 +156,18 @@ project  应用部署目录
 
 ## ThinkPHP5目录和文件开发规范
 
-目录使用小写+下划线的方式命名
-类库函数文件名均以“.php”结尾
-类库的文件名均以命名空间定义，并且命名空间和类库文件所在的路径一致
-类文件采用驼峰 首字母大写 其余文件为小写+下划线命名
-类名和类文件名保持一致，采用驼峰命名，首字母大写
+1. 目录使用小写+下划线的方式命名
+2. 类库函数文件名均以“.php”结尾
+3. 类库的文件名均以命名空间定义，并且命名空间和类库文件所在的路径一致
+4. 类文件采用驼峰 首字母大写 其余文件为小写+下划线命名
+5. 类名和类文件名保持一致，采用驼峰命名，首字母大写
 
 ### ThinkPHP5函数 、类属性命名
 
-类采用驼峰命名，首字母大写不需要添加后缀controller，如：HomePage
-函数使用驼峰命名，首字母小写,如：getUserInfo
-属性名采用驼峰，首字母小写，如：tableName
-以双下划线_ 开头的函数或者方法为魔术方法
+1. 类采用驼峰命名，首字母大写不需要添加后缀controller，如：HomePage
+2. 函数使用驼峰命名，首字母小写,如：getUserInfo
+3. 属性名采用驼峰，首字母小写，如：tableName
+4. 以双下划线_ 开头的函数或者方法为魔术方法
 
 ### ThinkPHP5常量和配置
 
@@ -185,11 +185,175 @@ project  应用部署目录
 
 # ThinkPHP5配置
 
-惯例配置
-应用配置
-扩展配置
-场景配置
-模块配置
-动态配置
+- 惯例配置
+- 应用配置
+- 扩展配置
+- 场景配置
+- 模块配置
+- 动态配置
 
 先定义配置文件，再在创建conf的文件夹中的config.php中修改配置信息，不然在文件config.php中的配置不起作用
+
+场景配置：修改数据库配置时，需要把数据库的所有配置都copy一下，不能只单独拉出来配置某个字段，因为单独配置某个/某些配置时，会把它的所有配置替换掉
+
+模块配置：conf下面的目录和app下面的目录文件名相同时，conf文件夹下的配置文件只对app下相同文件夹下的文件配置有效
+
+动态配置：我们可以利用__construct构造方法进行文件配置，这样只在该控制器中使用
+```
+public function __construct(){
+    config('before','beforeAction');
+}
+```
+如果只在方法中修改配置文件，那么只能在该方法中使用
+```
+public function index(){
+    config('indexaction','indexaction');
+    dump(config());
+}
+```
+
+## Config类和助手函数config
+
+Config类文件路径：./thinkphp/library/think/Config.php
+Config类和config函数对比：
+```
+//获取配置文件
+$res = Config::get();
+$res = config();
+```
+```
+//获取配置文件中的某个值
+$res = Config::get('app_status');
+$res = config('app_status');
+```
+```
+//设置配置文件中的某个配置('键','值','作用域')
+Config::set('username','meng');
+config('username','mengwenxia');
+//或者：
+Config::set('username','meng','index');
+config('username','index_config','index');
+```
+```
+//判断该配置是否存在，返回值为：bool（false/true）
+$res = Config::has('username');
+$res = config('?username');
+```
+
+## 环境变量配置和使用
+
+在app的同级目录下创建.env文件
+当在控制器下执行$_ENV返回空数组时，可以修改php.ini文件中的
+
+   `Default Value: "EGPCS" 前面的';'号去掉，或者把 variables_order = "GPCS" 改成 variables_order = "EGPCS"`
+
+ 保存之后重启Apache即可，但是在.env中的设置的变量并不能使用'$_ENV'获取，需要用 think\Env::get('email') 获取
+  ```
+//获取环境变量的值可以使用下面的两种方式获取
+Env::get('database.username');
+Env::get('database_username');
+
+//如果emails存在的话，返回值为emails的值；如果不存在则返回的是第二个值'ddd'
+Env::get('emails','ddd');
+dump($res);
+```
+
+# 入口文件
+
+## 单入口文件
+
+应用程序的所有http请求都由某一个文件接受并由这个文件转发到相应的功能代码中。
+
+## 单入口优势
+
+- 安全监测
+- 请求过滤（过滤掉某些无用的请求）
+
+## 隐藏url中的index.php
+
+打开Apache配置文件（H:\wamp64\bin\apache\apache2.4.27\conf\httpd.conf）：
+`LoadModule rewrite_module modules/mod_rewrite.so` 前面的注释去掉
+
+找到网站根目录：
+```
+<Directory "${INSTALL_DIR}/www/">
+    #
+    # Possible values for the Options directive are "None", "All",
+    # or any combination of:
+    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+    #
+    # Note that "MultiViews" must be named *explicitly* --- "Options All"
+    # doesn't give it to you.
+    #
+    # The Options directive is both complicated and important.  Please see
+    # http://httpd.apache.org/docs/2.4/mod/core.html#options
+    # for more information.
+    #
+    Options +Indexes +FollowSymLinks +Multiviews
+
+    #
+    # AllowOverride controls what directives may be placed in .htaccess files.
+    # It can be "All", "None", or any combination of the keywords:
+    #   AllowOverride FileInfo AuthConfig Limit
+    #
+    AllowOverride all （把这个 ‘ None ’ 改成 ‘ all ’）
+
+    #
+    # Controls who can get stuff from this server.
+    #
+
+#   onlineoffline tag - don't remove
+    Require local
+</Directory>
+```
+重启Apache；同时，定义重写文件的规则：H:\wamp64\www\thinkphp\public\.htaccess（没有该文件或者文件名不是.htaccess都不能隐藏入口文件的）
+
+## 入口文件绑定
+
+如果开启了入口文件自动绑定操作，优先访问和文件名相同的模块。
+```
+// 开启入口文件自动绑定操作
+'auto_bind_module' => true
+```
+例如：在public文件夹下，有文件名为api.php的文件，api.php的内容为：
+```
+<?php
+define('APP_PATH',__DIR__.'/../app/');
+define('CONF_PATH',__DIR__.'/../conf/');
+require(__DIR__.'/../thinkphp/start.php');
+```
+同时还存在文件 app/api/controller/Index.php 文件，那么当我们访问 http://127.0.0.1/thinkphp/public/api.php 会优先读取 api/controller 文件夹下的 index.php 文件；当不存在 app/api/controller/Index.php 文件时，会打开文件app/index/controller/Index.php 文件。
+入口文件绑定模块，可以限定访问的模块
+```
+//只能访问api的模块，不能访问其他的模块
+define('BIND_MODULE','admin');
+```
+例如：同上面的内容在入口文件index.php中，当我们在浏览器访问 http://127.0.0.1/thinkphp/public/index/Index/index ，虽然要打开的是index模块下的Index类中的index方法，但是真实打开的文件是admin模块下的Index类中的index方法，无法打开index模块下的Index类中的index方法。
+通过这种方式，限定了只能有一个模块可以访问。
+同理如果常量定义为： define('BIND_MODULE','admin/index') ，通过这个方法限定了只能访问Index类中的方法 http://127.0.0.1/thinkphp/public/demo 相当于打开 http://127.0.0.1/thinkphp/public/admin/Index/demo
+通过这种方式，限定了只能有一个模块下的类可以访问。
+
+## 路由
+
+目的：美化URL和简化用户的访问
+
+查看当前是否开启路由：H:\wamp64\www\thinkphp\thinkphp\convention.php
+```
+// 是否开启路由
+'url_route_on' => true,
+// 是否强制使用路由
+'url_route_must' => false
+```
+
+创建路由配置文件，文件名是固定的：route.php
+
+```
+return [
+    'news/:id' => 'index/Index/info',
+    'index/Index/demo' => 'index/Index/demo'
+];
+```
+打开index模块下Index类中的info方法，同时传递参数id值，当没有配置路由时，访问路径为： http://127.0.0.1/thinkphp/public/index/Index/info/id/5 ，然后进行上面方式设置路由之后，访问文件路径就可以简化为：http://127.0.0.1/news/5.html。
+
+如果开启强制使用路由
+例如：当访问index模块下的Index类中的demo方法时，没有开启强制使用路由时可以访问，开启之后就必须配置路由方可访问（'index/Index/demo' => 'index/Index/demo'）。
