@@ -363,7 +363,112 @@ return [
     'index/Index/demo' => 'index/Index/demo'
 ];
 ```
+
 打开index模块下Index类中的info方法，同时传递参数id值，当没有配置路由时，访问路径为： http://127.0.0.1/thinkphp/public/index/Index/info/id/5 ，然后进行上面方式设置路由之后，访问文件路径就可以简化为：http://127.0.0.1/news/5.html。
 
 如果开启强制使用路由
 例如：当访问index模块下的Index类中的demo方法时，没有开启强制使用路由时可以访问，开启之后就必须配置路由方可访问（'index/Index/demo' => 'index/Index/demo'）。
+
+# 请求和响应
+
+## 请求对象 Request
+
+要获取当前的请求信息，可以使用\think\Request类
+
+获取请求数据信息的三种方式：
+
+1、利用助手函数 request() 直接获取；
+```php
+$request = request();
+dump($request);
+```
+2、使用think下的Request类中的方法获取；
+```php
+use think\Request;
+$request = Request::instance();
+dump($request);
+```
+3、直接使用think下的Request类获取；
+```php
+public function index(Request $request){
+    dump($request);
+}
+```
+
+## 请求对象参数获取
+
+### 获取url路径
+
+例如：输入框中的路径是： http://127.0.0.1/thinkphp/public/index/Index/index/type/5.html?id=10
+```php
+echo '获取当前域名: ' . $request->domain().'<br/>';
+//返回数据：获取当前域名: http://127.0.0.1
+echo '获取当前入口文件: ' . $request->baseFile().'<br/>';
+//返回数据：获取当前入口文件: /thinkphp/public/index.php
+echo '获取当前URL地址 不含域名: '.$request->url().'<br/>';
+//返回数据：获取当前URL地址 不含域名: /thinkphp/public/index/Index/index/type/5.html?id=10
+echo '获取包含域名的完整URL地址: ' . $request->url(true) . '<br/>';
+//返回数据：获取包含域名的完整URL地址: http://127.0.0.1/thinkphp/public/index/Index/index/type/5.html?id=10
+echo '获取当前URL地址 不含QUERY_STRING: ' . $request->baseUrl() . '<br/>';
+//返回数据：获取当前URL地址 不含QUERY_STRING: /thinkphp/public/index/Index/index/type/5.html
+echo '获取URL访问的ROOT地址:' . $request->root() . '<br/>';
+//返回数据：获取URL访问的ROOT地址:/thinkphp/public
+echo '获取URL访问的ROOT地址,包含用域名:' . $request->root(true) . '<br/>';
+//返回数据：获取URL访问的ROOT地址,包含用域名: http://127.0.0.1/thinkphp/public
+echo '获取URL地址中的PATH_INFO信息: ' . $request->pathinfo() . '<br/>';
+//返回数据：获取URL地址中的PATH_INFO信息: index/Index/index/type/5.html
+echo '获取URL地址中的PATH_INFO信息 不含后缀: ' . $request->path() . '<br/>';
+//返回数据：获取URL地址中的PATH_INFO信息 不含后缀: index/Index/index/type/5
+echo '获取URL地址中的后缀信息: ' . $request->ext() . '<br/>';
+//返回数据：获取URL地址中的后缀信息: html
+```
+
+### 获取模块、控制器、操作方法
+
+```php
+dump($request->module()); // index
+dump($request->controller()); // Index
+dump($request->action()); // index
+```
+
+### 获取请求信息
+
+```php
+// 获取url的请求方式。返回数据：GET
+dump($request->method());
+//判断是不是get请求。返回数据：true
+dump($request->isGet());
+// 判断是不是post请求。返回数据：false
+dump($request->isPost());
+// 判断是不是ajax请求。返回数据：false
+dump($request->isAjax());
+//获取url请求所传参数。返回的是参数组成的数组
+dump($request->param());
+// 获取url请求所传参数的某个具体值。返回数据：5
+dump($request->param('type'));
+// 获取访问url的ip地址。返回数据：127.0.0.1
+dump($request->ip());
+```
+
+### 获取session、cookie值
+
+```php
+// 如果没有值，可以先设置session值，在测试
+session('name','meng');
+// 获取session值，返回是数组
+dump($request->session());
+// 获取session中的某个值。返回数据：meng
+dump($request->session('name'));
+// 如果没有值，可以先设置cookie值，在测试
+cookie('name','dreaming');
+// 获取cookie值，返回是数组
+dump($request->cookie());
+// 获取cookie中的某个值。返回数据：dreaming
+dump($request->cookie('name'));
+```
+## 助手函数 input
+
+定义函数时，不能定义与系统中助手函数相同的函数名。如果定义，在之前引用会导致系统中助手函数不能使用，在之后的引用程序会报错。
+
+
+## 响应对象
