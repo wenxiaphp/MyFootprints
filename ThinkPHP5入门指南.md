@@ -470,5 +470,155 @@ dump($request->cookie('name'));
 
 定义函数时，不能定义与系统中助手函数相同的函数名。如果定义，在之前引用会导致系统中助手函数不能使用，在之后的引用程序会报错。
 
+通过助手函数input()可以获取的值有：get, post,put, patch, delete, route, param, request, session, cookie, server, env, path, file
 
-## 响应对象
+使用方式：
+```php
+public function index(Request $request){
+    $patch = input('id');
+    dump($patch);//id的值
+
+    //当post和get方式同时传相同的值时，post传1，get传2
+    $get = input('get.id');
+    $post = input('post.id');
+    dump($get); // 2
+    dump($post);    // 1
+
+    //当要获取的参数不存在
+    $empty = input('get.name','meng');
+    dump($empty);// meng
+
+    // session('ss','  123  ');
+    dump(input('session.ss','sss@qq.com','trim'));//123（左右空格都被去掉了）
+}
+```
+
+input的具体实现原理（think/help.php）:
+```php
+//function_exists() input函数是否存在
+if (!function_exists('input')) {
+    /**
+     * 获取输入数据 支持默认值和过滤
+     * @param string    $key 获取的变量名
+     * @param mixed     $default 默认值（如果获取某个变量，但是这个变量在系统中不存在，则返回default）
+     * @param string    $filter 过滤方法
+     * @return mixed
+     */
+    function input($key = '', $default = null, $filter = '')
+    {
+        //如果key值以？号开头，会把？号去掉，并且还要把has设置为true
+        if (0 === strpos($key, '?')) {
+            $key = substr($key, 1);
+            $has = true;
+        }
+        //如果key值存在‘.’，将用‘.’进行分割成两个成两个变量
+        if ($pos = strpos($key, '.')) {
+            // 指定参数来源
+            list($method, $key) = explode('.', $key, 2);
+            if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete', 'route', 'param', 'request', 'session', 'cookie', 'server', 'env', 'path', 'file'])) {
+                $key    = $method . '.' . $key;
+                $method = 'param';
+            }
+        } else {
+            //如果key值不存在‘.’，会直接设置为param
+            // 默认为自动判断
+            $method = 'param';
+        }
+        if (isset($has)) {
+            //以？开头
+            return request()->has($key, $method, $default);
+        } else {
+            //不是以？开头
+            return request()->$method($key, $default, $filter);
+        }
+    }
+}
+```
+测试post传值，可以使用 Postman 或者 Fiddler 进行测试。
+
+## return 返回数据类型
+
+return返回的数据格式配置文件：think/convention.php 中
+
+```php
+'default_return_type' => 'html'
+```
+
+如果在接口中返回的数据不想用html，可以修改返回类型
+
+```php
+//把返回数据的类型设置为：json（默认是：html）
+Config::set('default_return_type','json');
+```
+常用的修改类型的方式是（把返回类型当参数传入，进行动态修改）：
+```php
+public function getUserInfo($type='json'){
+    if(!in_array($type,['json','xml'])){
+        $type = 'json';
+    }
+    Config::set('default_return_type',$type);
+    $data = [
+        'code' => 200,
+        'result' => [
+            'username' => 'meng',
+            'useremail' => 'dreaming99@126.com'
+        ]
+    ];
+    return $data;
+}
+```
+或者 创建响应的配置文件，进行类的整体修改（具体见模块配置）
+
+# 视图view和模板model
+
+## 视图View
+
+助手函数view()的使用：
+```php
+public function index(){
+    # 默认模板的地址
+    # view() app/index/view/index/index.html
+    # 传递的第一个参数是修改模板文件目录的
+    # view(upload) app/index/view/index/upload.html
+    # view(public/upload) app/index/view/public/upload.html
+    # 如果以 ./ 开头 那么就找到入口文件同级开始的模板文件
+
+    # 传递的第二个参数：是传递到第一个参数所对应页面的值
+    # 传递的第三个参数：将页面中所有大写的 STATIC 替换成当前是static的替换内容
+    return view('index',[
+        'email' => '123@qq.com',
+        'user' => 'meng'
+    ],[
+        'STATIC' => '当前是static的替换内容'
+    ]);
+}
+```
+一般编写web应用不推荐使用，如果想使用view可以使用Controller类下的fetach()方法，参数和函数 view() 一样。
+（如果控制器继承了\think\Controller类的话，则无需自己实例化视图类，可以直接调用控制器基础类封装的相关视图类的方法）
+
+| 方法    | 说明           |
+| ------- | -------------- |
+| fetch   | 渲染模板输出   |
+| display | 渲染内容输出   |
+| assign  | 模板变量赋值   |
+| engine  | 初始化模板引擎 |
+
+```php
+//相当于第二个参数，传到页面的值
+$this->assign('assign','assign传递的值');
+return $this->fetch('index',[
+    'email' => '123@qq.com',
+    'user' => 'meng'
+],[
+    'STATIC' => '当前是static的替换内容'
+]);
+```
+```php
+$this ->assign('user','meng');
+return $this->display('这是{$email}一个字符串{$user}',[
+    'email' => '123@qq.com'
+]);
+//返回内容：这是123@qq.com一个字符串meng
+```
+
+## 变量的输出、赋值和替换
