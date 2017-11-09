@@ -622,3 +622,499 @@ return $this->display('这是{$email}一个字符串{$user}',[
 ```
 
 ## 变量的输出、赋值和替换
+
+### 变量的输出
+
+在视图html中，我们通过使用一对 “{}” 加 “$+返回的变量名” 来获取控制器返回的值：
+```html
+<p>{$email}</p>
+```
+如果想修改这对“{}”，可以在thinkphp\convention.php中找到‘模板设置’使用配置文件的修改方法进行修改下面的两个值：
+```php
+// 模板引擎普通标签开始标记
+'tpl_begin' => '{meng',
+// 模板引擎普通标签结束标记
+'tpl_end' => '}',
+```
+结果是：
+```html
+<p>{meng$email}</p>
+```
+### 变量的赋值
+
+在继承Controller下变量赋值的四种方式：
+```php
+ use think\Controller;
+ use think\View;
+```
+1. 通过是用 fetch() 的第二个参数
+```php
+return $this->fetch('index',[
+    'email' => '123@qq.com',
+    'user' => 'meng'
+]);
+```
+2. 通过是用 assign() 方法
+```php
+// 变量名：key；变量值：value
+$this->assign('key','value');
+```
+3. 通过 view 获取
+```php
+// 获取view对象，给view对象设置一个属性key2（变量名），把key2的值设置成value2（变量值）
+$this->view->key2 = 'value2';
+```
+4. 通过view下的share()方法赋值（静态方法）
+```php
+//变量名：key3，变量值：value3
+View::share('key3','value3');
+```
+在分配变量时，这四种方法同时向模板中分配的变量同时有效，系统会把这四种方式传递的变量进行合并，统一向页面中进行分配，这样就可以在页面中使用。
+
+### 变量的替换
+
+1、通过是用 fetch() 的第三个参数，进行替换
+```php
+return $this->fetch('index',[],[
+    'STATIC' => '要替换的内容'
+]);
+```
+对应的html为：
+```html
+<p>STATIC</p>
+```
+
+2、通过在配置文件config.php中定义进行设置替换：
+```php
+'view_replace_str' => [
+    '__123__' => '一二三'
+],
+```
+对应的html中获取值为：
+```html
+<p>__123__</p>
+```
+
+3、通过直接使用 ‘thinkphp/library/think/View.php’ 系统中设置的替换(优先级最低)：
+```html
+<p>__URL__</p>
+<p>__STATIC__</p>
+<p>__JS__</p>
+<p>__CSS__</p>
+<p>__ROOT__</p>
+```
+优先级（低->高）：系统默认的配置 -> 模块配置文件中的配置（相同的替换）-> 方法中的配置
+
+## 模板中使用系统变量原生标签
+
+以下面例子为例：
+```html
+<p>{$Think.server.HTTP_HOST}</p>
+
+<p>get:{$Think.get.id}</p>
+<p>post:{$Think.post.sid}</p>
+<p>request:{$Think.request.id}</p>
+<p>session:{$Think.session.email}</p>
+<p>cookie:{$Think.cookie.username}</p>
+
+<p>获取常量APP_PATH: {$Think.const.APP_PATH}</p>
+<p>获取常量APP_PATH: {$Think.APP_PATH}</p>
+<p>不提倡这样写,在模板中直接写原生的（如下面样式，这样在以后的维护中是比较麻烦的）</p>
+<?php
+    echo APP_PATH.'<br/>';
+    $a = 10;
+    $b = 20;
+    if($a > $b){
+        echo '1';
+    } else{
+        echo '2';
+    }
+?>
+```
+
+## 变量的输出调节器
+
+以下面例子进行解析：
+在index.php中设置变量值：
+```php
+public function index(){
+    $this->assign('email','123@qq.com');
+    $this->assign('time',time());
+    $this->assign('a',10);
+    $this->assign('b',30);
+    return $this->fetch();
+}
+```
+在对应的视图模板里面进行设置：
+```html
+{/* 注释是：页面返回的数据信息 （这种格式也是注释，而这种注释是在页面和查看源码时里面都看不到的注释格式）*/}
+
+<p>{$email} : {$email|md5}</p>
+<!-- 使用md5加密邮箱  123@qq.com : 487f87505f619bf9ea08f26bb34f8118 -->
+<p>{$email} : {$email|substr=0,2}</p>
+<!-- 使用substr函数截取字符串 123@qq.com : 12 -->
+<p>{$email} : {$email|md5} : {$email|md5|strtoupper}</p>
+<!--使用md5加密邮箱，并且使用strtoupper把字符串转换成大写 123@qq.com : 487f87505f619bf9ea08f26bb34f8118 : 487F87505F619BF9EA08F26BB34F8118 -->
+<h2>{$time} : {$time|date='Y-m-d',###}</h2>
+<!--获取时间戳，并且把时间戳转换成时间格式，使用的‘###’是占位符代表前面的$time，返回结果：1510207933 : 2017-11-09 -->
+<hr />
+<p>a+b={$a+$b}</p>  <!-- a+b=40 -->
+<p>a-b={$a-$b}</p>  <!-- a-b=-20 -->
+<p>a*b={$a*$b}</p>  <!-- a*b=300 -->
+<p>a/b={$a/$b}</p>  <!-- a/b=0.33333333333333 -->
+<p>a%b={$a%$b}</p>  <!-- a%b=10 -->
+<p>b%a={$b%$a}</p>  <!-- b%a=0 -->
+<p>a++={$a++}</p>   <!-- a++=10 -->
+<p>a--={$a--}</p>   {/* a--=11  */}
+<p>++a={++$a}</p>   <!-- ++a=11 -->
+<p>--a={--$a}</p>   {/* --a=10  */}
+<hr/>
+<p>{$emails|default='123345@qq.com'}</p>
+<!--在模板中进行赋值：123345@qq.com -->
+<p>在 literal 里面的变量不会被解析</p>
+{literal}
+    {$email}
+{/literal}
+```
+
+# 标签
+
+## 循环标签
+
+ThinkPHP5 提供了三种标签：
+### 1、volist 循环
+
+volist的用法：
+```html
+{volist name='list' id='vo' offset='0' length='3' mod='2'  empty="$empty" key='s'}
+    <p></p>
+    <p>{$mod}:{$s}:{$vo.name}</p>
+{/volist}
+offset ：指定了从哪个开始遍历<br>
+length ：指定遍历的次数<br>
+mod ：取余（当前循环次数和mod的值取余，并赋值给mod）<br>
+empty ：当list返回为空时，要在页面上打印的内容<br>
+key : 默认值为‘i’，如果冲突可以修改，表示当前循环的次数<br>
+```
+设置`empty="$empty"`的三种方式：
+第一种写在控制器中的：
+```php
+$empty = "<h1>这里是分配为空的状态</h1>";
+$this->assign('empty',$empty);
+```
+第二种写在页面布局html中的：
+```html
+<?php
+    $empty = "<h1>这里是分配为空的状态</h1>";
+?>
+```
+第三种写在页面布局html中的：
+```html
+{php}
+    $empty = "<h1>这里是分配为空的状态</h1>";
+{/php}
+```
+
+### 2、foreach 循环
+
+第一种用法：
+```html
+{foreach $list as $val}
+    <p>{$val.name} : {$val.email}</p>
+{/foreach}
+```
+第二种用法：
+```html
+{foreach name='list' item='val' key='s'}
+    <p>{$key} == {$s}</p>
+    <p>{$val.name} : {$val.email}</p>
+{/foreach}
+key : 数组的下标,也可以起别名，默认为key<br>
+```
+
+### 3、 for循环
+
+用法：
+```html
+{for start='1' end='10' step='2' name='k'}
+    <p>{$k}</p>
+{/for}
+start ：从几开始<br>
+end ：从几结束<br>
+step ：默认是1，每次隔几个<br>
+name : 默认是 ‘i’ ，可以通过 name 进行重新命名<br>
+```
+相当于PHP中的：
+```php
+for($i=1;$i<10;$i++){
+    echo "<p>{$i}</p>";
+}
+```
+在序列里面用法：
+```html
+<ol>
+    {for start='1' end='10'}
+        <li>{$i}</li>
+    {/for}
+</ol>
+```
+返回结果：
+```html
+1. 1
+2. 2
+3. 3
+4. 4
+5. 5
+6. 6
+7. 7
+8. 8
+9. 9
+```
+
+## 比较标签
+
+定义两个变量分别如下：
+
+```html
+<p>a的值：{$a}</p>
+<!-- a的值：10 -->
+<p>b的值:{$b}</p>
+<!-- b的值:20 -->
+```
+
+### eq 和 equal 标签（相等）
+
+```html
+{eq name='a' value="$b"}
+    <p>a eq b : 正确</p>
+{else/}
+    <p>a eq b : 不相等</p>
+{/eq}
+{equal name='a' value="$b"}
+    <p>a equal b : 相等</p>
+{else/}
+    <p>a equal 10 : 不相等</p>
+{/equal}
+```
+
+### neq 和 notequal 标签（不相等）
+
+```html
+{neq name='a' value="$b"}
+    <p>a neq 20 : 不相等</p>
+{else/}
+    <p>a neq 20 : 相等</p>
+{/neq}
+{notequal name='a' value="$b"}
+    <p>不相等</p>
+{else/}
+    <p>相等</p>
+{/notequal}
+```
+
+### gt 和 egt 标签（大于、大于等于）
+
+```html
+{gt name='a' value='8'}
+    <p>正确</p>
+{else/}
+    <p>错误</p>
+{/gt}
+{egt name='a' value='10'}
+    <p>正确</p>
+{else/}
+    <p>错误</p>
+{/egt}
+```
+
+### lt 和 elt 标签（小于、小于等于）
+
+```html
+{lt name='a' value='8'}
+    <p>正确</p>
+{else/}
+    <p>错误</p>
+{/lt}
+{elt name='a' value='10'}
+    <p>正确</p>
+{else/}
+    <p>错误</p>
+{/elt}
+```
+## 判断标签
+
+### switch 标签
+
+`switch标签`：当比较多个值时，使用“|”隔开。
+switch用法如下：
+```html
+{switch name="Think.get.level"}
+    {case value='1|2' } <p>铜牌会员</p>{/case}
+    {case value='3' } <p>黄金会员</p>{/case}
+    {case value='4' } <p>钻石会员</p>{/case}
+    {default /} <p>游客</p>
+{/switch}
+```
+### if 标签
+
+`if标签` ：在模板中不建议使用，因为在模板中大量的判断是有问题的，让模板不够干净。如果想使用这种逻辑判断，一般使用switch就可以；如果必须使用if的话，需要检查一下控制器，大多的判断需要在控制器中进行；如果模板中存在大量的if，那说明控制器写的有问题。
+```html
+{if condition="($Think.get.level == 1) AND ($Think.get.id == 10)"}
+    <p>当前的值为1 并且id等于10</p>
+{else/}
+    <p>当前的值不为1 或者 id的值不等于10</p>
+{/if}
+```
+
+### range标签
+
+1、如果 `type='in'` 表示 name值是value值里面的任何一个
+```html
+{range name="Think.get.level" value="1,2,3" type="in"}
+    <p>当前level值是1,2,3中的任何一个</p>
+{else/}
+    <p>当前level值不是1,2,3中的任何一个</p>
+{/range}
+{in name="Think.get.level" value="1,2,3"}
+    <p>当前level值是1,2,3中的任何一个</p>
+{else/}
+    <p>当前level值不是1,2,3中的任何一个</p>
+{/in}
+```
+2、如果 `type='notin'` 表示 name值不是value里面的任何一个
+```html
+{range name="Think.get.level" value="1,2,3" type="notin"}
+    <p>当前level值不是1,2,3中的任何一个</p>
+{else/}
+    <p>当前level值是1,2,3中的任何一个</p>
+{/range}
+{notin name="Think.get.level" value="1,2,3"}
+    <p>当前level值不是1,2,3中的任何一个</p>
+{else/}
+    <p>当前level值是1,2,3中的任何一个</p>
+{/notin}
+```
+3、如果`type='between'`表示 name值在value的两个值之间,包含这两个值
+```html
+{range name="Think.get.level" value="1,10" type="between"}
+    <p>当前level值在1到10之间</p>
+{else/}
+    <p>当前level值不在1到10之间</p>
+{/range}
+{between name="Think.get.level" value="1,10"}
+    <p>当前level值在1到10之间</p>
+{else/}
+    <p>当前level值不在1到10之间</p>
+{/between}
+```
+4、如果`type='notbetween'`表示 name值不在value的两个值之间，不包含这两个值
+```html
+{range name="Think.get.level" value="1,10" type="notbetween"}
+    <p>当前level值不在1到10之间</p>
+{else/}
+    <p>当前level值在1到10之间</p>
+{/range}
+{notbetween name="Think.get.level" value="1,10"}
+    <p>当前level值不在1到10之间</p>
+{else/}
+    <p>当前level值在1到10之间</p>
+{/notbetween}
+```
+### defined 标签
+
+defined ：判断当前系统中某常量是否定义
+```html
+{defined name="APP_PATH"}
+    <p>APP_PATH 已经定义</p>
+{else/}
+    <p>APP_PATH 未定义</p>
+{/defined}
+```
+# 模板布局 包含 继承
+
+## 模板引入机制：include
+可以直接使用include方式引入不同的文件，来简化我们的模板，file表示要引入的文件路径。
+```html
+{include file='common/nav' /}
+```
+
+## 模板继承机制：block
+
+首先编写一个被继承的模板，称之为父模板。然后直接在模板中使用 `extend` 这种方式直接继承父模板；如果要替换父模板中的内容，只需要使用 `block` 在父模板中进行位置的预留，之后就可以在模板中直接使用与父模板中bolck同名的name值的方式来替换父模板中的内容。
+```html
+/* extend中name表示父模板的路径 */
+{extend name='common/base' /}
+```
+```html
+/*父模板中的位置预留*/
+{block name='body'}{/block}
+```
+```html
+{block name='body'}
+    <h1>这里是index页面的body内容</h1>
+{/block}
+```
+如果在父模板中有要用的内容，不需要全部替换的话，可以使用“`{__block__}`”，来拼接父模板中的内容
+```html
+/*父模板中的位置预留，含有内容*/
+{block name='footer'}底部{/block}
+```
+在子模板中的继承
+```html
+{block name='footer'}
+    index页面中的_{__block__}
+{/block}
+/*
+    返回结果：
+    index页面中的底部
+*/
+```
+
+## 模板布局机制：layout
+
+要使用layout，首先要修改配置文件`conf/config.php`中在‘`template`’里面添加配置项：`layout_on` 和 `layout_name`
+```php
+'template' => [
+    // 模板引擎类型 支持 php think 支持扩展
+    'type'  => 'Think',
+    // 视图基础目录，配置目录为所有模块的视图起始目录
+    'view_base'    => '',
+    // 当前模板的视图目录 留空为自动获取
+    'view_path'    => '',
+    // 模板后缀
+    'view_suffix'  => 'html',
+    // 模板文件名分隔符
+    'view_depr'    => DS,
+    // 模板引擎普通标签开始标记
+    'tpl_begin'    => '{',
+    // 模板引擎普通标签结束标记
+    'tpl_end'      => '}',
+    // 标签库标签开始标记
+    'taglib_begin' => '{',
+    // 标签库标签结束标记
+    'taglib_end'   => '}',
+    /*
+        开启layout功能，在所有的模板中都会有效
+    */
+    'layout_on' => true,
+    'layout_name' => 'layout'
+],
+```
+如果开启了layout，优先找到view/layout.html（文件名要和配置中设置的layout_name值一样）文件，在layout文件中bolck是不起作用的，但是include是可以使用的。
+首先在模板中不需要编写继承或者其他的一些标签，可以直接输出内容，它实现的效果其实就是和我们使用继承的方式中只挖一个坑是一样的，在这里只有一个“{__CONTENT__}”(这个名称是固定的)。
+可以直接在模板（在该模板中不能使用其他机制的，但是可以使用include）中直接进行编写，它会把模板中的字符串和layout中“__CONTENT__”进行替换，之后对layout进行编译。
+
+如果要修改部分内容，可以在layout模板中设置变量，然后通过控制器进行传值设置
+```php
+$this->assign('title','index');
+return $this->fetch();
+```
+```html
+<title>
+    模板 {$title}页面的title值
+</title>
+/*
+    返回结果：
+    模板 index页面的title值
+*/
+```
