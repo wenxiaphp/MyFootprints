@@ -1,0 +1,173 @@
+[ 2018-08-21T19:01:58+08:00 ] 115.57.150.36 /weixin/index.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000035s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000633s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000655s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000020s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000047s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005868s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005900s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000136s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000150s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000551s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000569s ]
+
+[ 2018-08-21T19:03:40+08:00 ] 115.57.150.36 /weixin/index.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000056s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000042s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000066s ]
+NOTIC: [8] Undefined index: signature /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 9 行.
+NOTIC: [8] Undefined index: timestamp /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 10 行.
+NOTIC: [8] Undefined index: nonce /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 11 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000035s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000049s ]
+
+[ 2018-08-21T19:03:40+08:00 ] 115.57.150.36 /weixin/index.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000042s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000016s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000029s ]
+NOTIC: [8] Undefined index: signature /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 9 行.
+NOTIC: [8] Undefined index: timestamp /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 10 行.
+NOTIC: [8] Undefined index: nonce /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 11 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000015s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000025s ]
+
+[ 2018-08-21T19:05:38+08:00 ] 115.57.150.36 /weixin/index.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000049s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000040s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000063s ]
+NOTIC: [8] Undefined index: signature /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 9 行.
+NOTIC: [8] Undefined index: timestamp /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 10 行.
+NOTIC: [8] Undefined index: nonce /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 11 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000029s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000043s ]
+
+[ 2018-08-21T19:15:42+08:00 ] 115.57.150.36 /weixin/index.php/Home/Index/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000047s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000023s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000040s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000024s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000041s ]
+
+[ 2018-08-21T19:16:13+08:00 ] 140.207.54.79 /weixin/index.php/Home/Index/index?signature=eb36cdc81b02cd03f19b3d599254271bb1fb6104&echostr=690385058321398909&timestamp=1534850173&nonce=21779890
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000049s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000018s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000031s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000017s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000029s ]
+
+[ 2018-08-21T19:16:15+08:00 ] 140.207.54.80 /weixin/index.php/Home/Index/index?signature=db959b4772400d72cb1b5477ca4d9daa740f9f59&echostr=8753595882034427263&timestamp=1534850175&nonce=566256782
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000043s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000027s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000051s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000020s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000038s ]
+
+[ 2018-08-21T19:16:18+08:00 ] 140.207.54.79 /weixin/index.php/Home/Index/index?signature=3e2b56d3e013368aeb87dee20344523a2c0c327d&echostr=4485419367894350986&timestamp=1534850178&nonce=1115427032
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000060s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000025s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000043s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000035s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000058s ]
+
+[ 2018-08-21T19:16:21+08:00 ] 140.207.54.80 /weixin/index.php/Home/Index/index?signature=fb720ac5c36d156f43bdf8ab1fae207850325fc6&echostr=8323392792986385607&timestamp=1534850180&nonce=1436632081
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000050s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000018s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000031s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000017s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000030s ]
+
+[ 2018-08-21T19:16:40+08:00 ] 140.207.54.79 /weixin/index.php/Home/Index/index?signature=f4d409c94c9fcdd4e9a641e42464397ba7c0f120&echostr=3767249451072880057&timestamp=1534850200&nonce=118158019
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000056s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000020s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000033s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000019s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000033s ]
+
+[ 2018-08-21T19:16:42+08:00 ] 58.247.212.141 /weixin/index.php/Home/Index/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000066s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000020s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000037s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000015s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000030s ]
+
+[ 2018-08-21T19:17:13+08:00 ] 117.185.117.59 /weixin/index.php/Home/Index/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000049s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000019s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000032s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+NOTIC: [8] Undefined index: signature /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 9 行.
+NOTIC: [8] Undefined index: timestamp /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 10 行.
+NOTIC: [8] Undefined index: nonce /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 11 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000028s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000047s ]
+
+[ 2018-08-21T19:18:40+08:00 ] 140.207.54.80 /weixin/index.php/Home/Index/index?signature=f74c30f8179d7d762e1381b942a0e39be426e57e&echostr=3978213090633184627&timestamp=1534850320&nonce=1207069485
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000052s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000028s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000049s ]
+NOTIC: [2] Declaration of Home\Controller\IndexController::show() should be compatible with Think\Controller::show($content, $charset = '', $contentType = '', $prefix = '') /home/www/yoka/weixin/WeiXin/Home/Controller/IndexController.class.php 第 0 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000031s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000055s ]
+

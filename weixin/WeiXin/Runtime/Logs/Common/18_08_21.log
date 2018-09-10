@@ -1,0 +1,48 @@
+[ 2018-08-21T19:08:40+08:00 ] 115.57.150.36 /weixin/index.php/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000072s ]
+ERR: 无法加载模块:Show
+
+[ 2018-08-21T19:09:40+08:00 ] 58.246.221.162 /weixin/index.php/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000050s ]
+ERR: 无法加载模块:Show
+
+[ 2018-08-21T19:14:57+08:00 ] 115.57.150.36 /weixin/index.php/WeiXin/Index/ndexshow
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000049s ]
+ERR: 无法加载模块:WeiXin
+
+[ 2018-08-21T19:15:01+08:00 ] 115.57.150.36 /weixin/index.php/WeiXin/Index/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000053s ]
+ERR: 无法加载模块:WeiXin
+
+[ 2018-08-21T19:15:03+08:00 ] 115.57.150.36 /weixin/index.php/WeiXin/Index/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000064s ]
+ERR: 无法加载模块:WeiXin
+
+[ 2018-08-21T19:15:21+08:00 ] 115.57.150.36 /weixin/index.php/WeiXin/Index/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000070s ]
+ERR: 无法加载模块:WeiXin
+
+[ 2018-08-21T19:15:57+08:00 ] 140.207.54.187 /weixin/index.php/WeiXin/Index/ndexshow
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000065s ]
+ERR: 无法加载模块:WeiXin
+
+[ 2018-08-21T19:16:01+08:00 ] 58.247.212.141 /weixin/index.php/WeiXin/Index/show
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000049s ]
+ERR: 无法加载模块:WeiXin
+
