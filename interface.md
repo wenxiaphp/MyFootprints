@@ -33,7 +33,9 @@ thinkphp官网下载
 
 搭建后台使用：h-ui admin
 
+设置数据库信息：app/database.php
 
+validata 校验
 
 
 
