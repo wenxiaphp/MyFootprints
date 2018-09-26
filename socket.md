@@ -16,6 +16,15 @@ apt install git
 - 开启：sudo php demo-telnet.php start
 - 关闭：sudo php demo-telnet.php kill
 
+### 安装php的pcntl扩展
+
+首先执行phpize命令
+如果没有安装执行会返回：
+The program 'phpize' is currently not installed. You can install it by typing:
+apt install php7.0-dev
+
+然后执行：apt install php7.0-dev
+
 
 
 1. workerman
