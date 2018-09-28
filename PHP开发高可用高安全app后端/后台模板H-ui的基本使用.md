@@ -1208,12 +1208,12 @@ function status($id, $status) {
     }elseif($status == 0) {
         $str = "<a href='javascript:;' title='修改状态' status_url='".$url."' onclick='app_status(this)'><span class='label label-danger radius'>待审</span></a>";
     }
-
     return $str;
 }
 ```
 
 页面展示（news/index.html）：
+
 ```html
 // 修改状态格式
 <td class="td-status">{$vo.status|status=$vo.id, ###}</td>
