@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src='./vue-2.4.4.js'></script>
+</head>
+<body>
+  <div id='app'>
+    <h1>1、双大括号获取vue定义的内容</h1>
+    <p>{{message}}</p>
+    <h1>2、通过v-bind 获取vue定义的属性值</h1>
+    <span v-bind:title="message">
+      fjjfjjfjjf
+    </span>
+    <br>
+    <input type="text" name="" v-bind:value="message">
+    <h1>3、通过 v-if指令获取vue定义的v-if值来设置内容是显示还是隐藏</h1>
+    <p v-if='see'>你看不见我</p>
+    <h1>4、通过v-for来循环设置vue所传的值（其中list表示值，lists表示vue所传数组集合的名称）</h1>
+    <ol>
+      <li v-for='list in lists'>
+        {{list.name}}
+      </li>
+    </ol>
+    <hr>
+    <h1>5、通过v-on指令绑定一个事件监听器，通过他调用vue定义的方法</h1>
+    <p>{{message}}</p>
+    <button  v-on:click='reverseMessage'>逆转消息</button>
+    <h1>6、</h1>
+  </div>
+</body>
+<script type="text/javascript">
+  new Vue({
+    el:'#app',
+    data:{
+      message : 'Hello Word 你好',
+      see : false,
+      lists : [
+        {name : 'php'},
+        {name : 'java'},
+        {name : 'android'},
+        {name : 'ios'}
+      ]
+    },
+    methods:{
+      reverseMessage:function(){
+        this.message = this.message.split('').reverse().join('')
+      }
+    }
+  });
+
+</script>
+</html>
