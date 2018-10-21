@@ -23,6 +23,7 @@
 进入控制台
 创建应用、上传logo
 可以推送进行测试
+需要设置推送设置内容
 
 ## SDK下载和安装
 
@@ -33,7 +34,7 @@ sdk下载
 php
 下载的代码放入 vendor、或者通过composer安装
 
-安装在项目目录下运行：composer requier jpush/jpush 
+安装在项目目录下运行：composer require jpush/jpush 
 
 ## 发送第一个demo
 
